@@ -1,6 +1,8 @@
 module Server
 
+open System
 open SAFE
+open Giraffe
 open Saturn
 open Shared
 
@@ -30,7 +32,11 @@ let todosApi ctx = {
         }
 }
 
-let webApp = Api.make todosApi
+let webApp = //Api.make todosApi
+    let s : Printf.StringFormat<string -> int -> string> = "%s%d"
+    sprintf $ s "ciao" 1
+    subRoutef
+    routef "/%s/%d" (fun n -> text (sprintf "Hello %s! Lang: %s" n "lang"))
 
 let app = application {
     use_router webApp
