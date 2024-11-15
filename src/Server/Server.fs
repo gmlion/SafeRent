@@ -33,10 +33,14 @@ let todosApi ctx = {
 }
 
 let webApp = //Api.make todosApi
-    let s : Printf.StringFormat<string -> int -> string> = "%s%d"
-    sprintf $ s "ciao" 1
-    subRoutef
-    routef "/%s/%d" (fun n -> text (sprintf "Hello %s! Lang: %s" n "lang"))
+    let s : Printf.StringFormat<string -> int -> string -> string, string> = "%s %i %s"
+    let greet = sprintf s "Say hello" 1000 "times"
+
+
+    subRoutef "/%s" (fun root ->
+        routef "/%s/%i" (fun (s, i) -> text (sprintf "Root: %s. Second level: %s. Version: %i\n%s" root s i greet))
+        )
+
 
 let app = application {
     use_router webApp
